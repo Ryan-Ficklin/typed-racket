@@ -1295,8 +1295,44 @@
 [unsafe-undefined -Unsafe-Undefined]
 
 ;; Section 4.21 (TreeLists)
+#|
 [treelist (-poly (e) (->* (list) e (-treelist e)))]
-
+[treelist-empty? (-poly (e) (-> (-treelist e) B))]
+[treelist-length (-poly (e) (-> (-treelist e) -Index))]
+[treelist-member? (-poly (e) (-> (-treelist e) e (-> e e B) B))]
+[treelist-first (-poly (e) (-> (-treelist e) e :T+ #f))]
+[treelist-last (-poly (e) (-> (-treelist e) e :T+ #f))]
+[treelist-rest (-poly (e) (-> (-treelist e) (-treelist e)))]
+[treelist-add (-poly (e) (-> (-treelist e) e (-treelist e)))]
+[treelist-cons (-poly (e) (-> (-treelist e) e (-treelist e)))]
+[treelist-delete (-poly (e) (-> (-treelist e) -Index (-treelist e)))]
+[make-treelist (-poly (e) (-> -Nat e (-treelist e)))]
+[treelist-ref (-poly (e) (-> (-treelist e) -Index e))]
+[treelist-insert (-poly (e) (-> (-treelist e) -Index e (-treelist e)))]
+[treelist-set (-poly (e) (-> (-treelist e) -Index e (-treelist e)))]
+[treelist-take (-poly (e) (-> (-treelist e) -Index (-treelist e)))]
+[treelist-drop (-poly (e) (-> (-treelist e) -Index (-treelist e)))]
+[treelist-take-right (-poly (e) (-> (-treelist e) -Index (-treelist e)))]
+[treelist-drop-right (-poly (e) (-> (-treelist e) -Index (-treelist e)))]
+[treelist-sublist (-poly (e) (-> (-treelist e) -Index -Index (-treelist e)))]
+[treelist-reverse (-poly (e) (-> (-treelist e) (-treelist e)))]
+[treelist->list (-poly (e) (-> (-treelist e) (-lst e)))]
+[list->treelist (-poly (e) (-> (-lst e) (-treelist e)))]
+[treelist->vector (-poly (e) (-> (-treelist e) (-vec e)))]
+[vector->treelist (-poly (e) (-> (-vec e) (-treelist e)))]
+[in-treelist (-poly (e) (-> (-treelist e) (-seq e)))]
+[treelist? (unsafe-shallow:make-pred-ty (-treelist Univ))]
+[treelist-append (-poly (e) (->* (list) (-treelist e) (-treelist e)))]
+[treelist-map (-poly (e b) (-> (-treelist e) (-> e b) (-treelist b)))]
+[treelist-for-each (-poly (e b) (-> (-treelist e) (-> e b) -Void))]
+[treelist-find (-poly (e) (-> (-treelist e) (-> e Univ) e))]
+[treelist-sort (-poly (e) (-> (-treelist e) (-> e e B) or? default?))]
+(-poly
+  (a b)
+  (cl->*
+   (->key (-lst a) (-> a a -Boolean) #:key (-opt (-> a a :T+ #f)) #f #:cache-keys? -Boolean #f (-lst a))
+   (->key (-lst a) (-> b b -Boolean) #:key (-> a b :T+ #f) #t #:cache-keys? -Boolean #f (-lst a)))))
+|#
 
 ;; Section 5.2 (Structure Types)
 [make-struct-type
