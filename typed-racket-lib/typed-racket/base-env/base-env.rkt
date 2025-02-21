@@ -1295,7 +1295,7 @@
 [unsafe-undefined -Unsafe-Undefined]
 
 ;; Section 4.21 (TreeLists)
-
+[treelist (-poly (e) (->* (list) e (-treelist e)))]
 
 
 ;; Section 5.2 (Structure Types)
