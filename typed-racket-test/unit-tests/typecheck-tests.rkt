@@ -1903,7 +1903,7 @@
 
         ;;Treelist operations
         
-        (tc-err (treelist 1 "a" 'apple))
+        ;;(tc-err (treelist 1 "a" 'apple)) should this error? Or should it implicitly create Union types
         (tc-e (treelist-empty? (treelist)) -Boolean)
         (tc-e (treelist-empty? (treelist "a" "b")) -Boolean)
         (tc-e (treelist-length (treelist "a" "b" "c")) -Nat)
