@@ -360,6 +360,12 @@
 (def-structural TreeList ([elem #:covariant])
   [#:mask mask:treelist])
 
+#;(def-structural Foo ([elem #:covariant])
+  [#:mask mask:foo]) ;; REMOVEFOO
+
+#;(def-structural Table ([elem #:covariant])
+  [#:mask mask:table])
+
 ;;------------
 ;; HashTable
 ;;------------
@@ -1346,6 +1352,12 @@
   [#:fmap (f) (make-Instance (f cls))]
   [#:for-each (f) (f cls)]
   [#:mask mask:instance])
+
+(def-type Table ([columns (listof (list/c symbol? Type?))])
+  [#:frees (f) (combine-frees (map (λ (col) (f (second col))) columns))]
+  [#:fmap (f) (make-Table (map (λ (col) (list-update col 1 f)) columns))]
+  [#:for-each (f) (for-each (λ (col) (f (second col))) columns)]
+  [#:mask mask:table])
 
 ;;************************************************************
 ;; Units

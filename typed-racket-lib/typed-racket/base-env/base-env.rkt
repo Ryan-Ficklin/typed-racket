@@ -8,6 +8,7 @@
   racket/unsafe/ops
   racket/unsafe/undefined
   racket/hash
+  "../../../../my-table.rkt" ;; REMOVEFOO
   racket/treelist
   (only-in racket/extflonum floating-point-bytes->extfl extfl->floating-point-bytes)
   ;(only-in rnrs/lists-6 fold-left)
@@ -1355,7 +1356,8 @@
   (cl->*
    (->key (-treelist a) (-> a a -Boolean) #:key (-opt (-> a a :T+ #f)) #f #:cache-keys? -Boolean #f (-treelist a))
    (->key (-treelist a) (-> b b -Boolean) #:key (-> a b :T+ #f) #t #:cache-keys? -Boolean #f (-treelist a))))]
-
+#;[foo (-poly (a) (-> a (-foo a)))] ;; REMOVEFOO
+#;[make-table (-poly (k v) (-> (-lst k) (-lst (-lst v)) (-table (-lst (-lst v)))))]
 
 ;; Section 5.2 (Structure Types)
 [make-struct-type

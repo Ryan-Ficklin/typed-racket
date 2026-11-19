@@ -42,7 +42,7 @@
  racket/format
  racket/string
  racket/set
- racket/treelist
+ ;racket/treelist ;; this may be unnecessary
  syntax/flatten-begin
  (only-in "../types/abbrev.rkt" -Bottom -Boolean)
  "../static-contracts/instantiate.rkt"
@@ -904,7 +904,8 @@
         none/sc
         (make-procedure-arity-flat/sc num-mand-args '() '()))]
      [(Set: _) set?/sc]
-     [(TreeList: _) treelist?/sc] 
+     [(TreeList: _) treelist?/sc]
+     ;[] ;; REMOVEFOO 
      [(or (Sequence: _)
           (SequenceTop:)
           (SequenceDots: _ _ _))

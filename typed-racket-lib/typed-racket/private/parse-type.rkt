@@ -161,6 +161,7 @@
 (define-literal-syntax-class #:for-label Distinction)
 (define-literal-syntax-class #:for-label Sequenceof)
 (define-literal-syntax-class #:for-label Refine)
+(define-literal-syntax-class #:for-label Table)
 (define-literal-syntax-class #:for-label Self)
 (define-literal-syntax-class #:for-label Some)
 (define-literal-syntax-class #:for-label not)
@@ -766,6 +767,8 @@
             (make-Refinement dom #'p?)]
            [t (parse-error "expected a predicate for argument to Refinement"
                            "given" t)])]
+        [(:Table^ e ...)
+         (parse-table-type stx do-parse)]
         [(:Struct^ t)
          (let ([v (do-parse #'t)])
            (match (resolve v)
@@ -1757,3 +1760,35 @@
                          #:more reason
                          #:delayed? delayed?
                          rst))
+
+
+;; ~~~ Table parsing ~~~
+(define-syntax-class table-column-type
+  #:description "Pair of a table column's label and type"
+  #:attributes (label type)
+  (pattern (label:id type:expr)))
+
+;; Syntax class for table type parsing
+(define-splicing-syntax-class table-type-clauses
+  #:description "Table type clause"
+  #:attributes (column-labels column-types)
+  (pattern (~seq column-clause:table-column-type ...)
+           #:with column-labels (flatten-table-clause #'(column-clause.label ...))
+           #:with column-types (flatten-table-clause #'(column-clause.type ...))
+           #:fail-when
+           (check-duplicate-identifier (syntax->list #'column-labels))
+           "duplicate table type clause"))
+  
+;; Syntax -> Syntax
+;; removes two levels of nesting
+(define (flatten-table-clause stx)
+  (flatten (stx->list stx)))
+
+(define (parse-table-type stx do-parse)
+  (syntax-parse stx
+    [(kw clause:table-type-clauses)
+     (add-disappeared-use #'kw)
+     (define columns (map list
+                         (stx-map syntax-e #'clause.column-labels)
+                         (stx-map do-parse #'clause.column-types)))
+     (make-Table columns)]))

@@ -198,6 +198,8 @@
 [Ephemeronof -Ephemeron]
 [Setof -set]
 [TreeListof -treelist]
+#;[Foo -foo] ;; REMOVEFOO
+#;[Table -table]
 [Evtof -evt]
 [Continuation-Mark-Set -Cont-Mark-Set]
 [False -False]

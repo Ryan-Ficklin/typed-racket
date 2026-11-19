@@ -144,6 +144,8 @@
  mask:other-box
  mask:set
  mask:treelist
+ #;mask:foo ;; REMOVEFOO
+ mask:table
  mask:procedure
  mask:prompt-tag
  mask:continuation-mark-key

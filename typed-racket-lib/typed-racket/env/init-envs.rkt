@@ -157,6 +157,10 @@
      `(make-Set ,(type->sexp ty))]
     [(TreeList: ty)
      `(make-TreeList ,(type->sexp ty))]
+    #;[(Foo: ty)
+     `(make-Foo ,(type->sexp ty))] ;; REMOVEFOO
+    [(Table: columns)
+     `(make-Table #;,(type->sexp tys) (list ,@(convert-row-clause columns)))]
     [(Evt: ty)
      `(make-Evt ,(type->sexp ty))]
     [(Future: ty)

@@ -822,6 +822,10 @@
          (cg a a*)]
         [((TreeList: a) (TreeList: a*))
          (cg a a*)]
+        #;[((Foo: a) (Foo: a*))
+         (cg a a*)] ;; REMOVEFOO
+        [((Table: a) (Table: a*))
+         (cg a a*)]
         [((Evt: a) (Evt: a*))
          (cg a a*)]
         [((? Base:Semaphore?) (Evt: t))

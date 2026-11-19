@@ -918,29 +918,29 @@
         (with-updated-seen A
           (let ([t1* (resolve-once inst-t1)])
             (and (Type? t1*)
-                 (subtype* A (make-Instance t1*) t2)))))]
+                 (subtype* A (make-Instance t1*) t2)))))] ;;> I believe this is the "base case"
      [else
       (match* (t1 t2)
         [((Instance: (Class: _ _ field-map method-map augment-map _))
           (Instance: (Class: _ _ field-map* method-map* augment-map* _)))
-         (define (subtype-clause? map map*)
+         (define (subtype-clause? map map*) ;;> helper to check method and field types
            (and (for/and ([key+type (in-list map*)])
                   (match-define (list key type) key+type)
-                  (assq key map))
-                (let/ec escape
-                  (for/fold ([A A])
+                  (assq key map)) ;;> false unless every key in map* is also present in map
+                (let/ec escape ;;> not sure what this part is for exactly
+                  (for/fold ([A A]) ;;> A is the "seen list" -> updated for: Mus, Names, Apps, Instances, and Structs. We are folding in additions to the seen list
                             ([key+type (in-list map)]
-                             #:break (not A))
-                    (match-define (list key type) key+type)
-                    (define result (assq (car key+type) map*))
-                    (or (and (not result) A)
+                             #:break (not A)) ;;> I believe we are folding each subtype result into A?
+                    (match-define (list key type) key+type) ;;> key and type for map, not map*
+                    (define result (assq (car key+type) map*)) ;;> result is the key+type pair from map* corresponding to each key in map
+                    (or (and (not result) A) ;;> only fails when map key not found in map* (extra "width", we don't care), so return A
                         (let ([type* (cadr result)])
-                          (or (subtype* A type type*)
-                              (escape #f))))))))
+                          (or (subtype* A type type*) ;;> check subtype of map's type for this key, with map*'s type for same key
+                              (escape #f)))))))) ;;> or escape??
          (and ;; Note that init & augment clauses don't matter for objects
-          (subtype-clause? method-map method-map*)
+          (subtype-clause? method-map method-map*) ;;> call helper on methods, then fields 
           (subtype-clause? field-map field-map*))]
-        [(_ _) (continue<: A t1 t2 obj)])])]
+        [(_ _) (continue<: A t1 t2 obj)])])] ;;> I believe this is just a "move-on" case present in every subtype case
   [(case: Intersection (Intersection: t1s _))
    (match t1
      [(Refine: t1* raw-prop)
@@ -1280,6 +1280,7 @@
      [(SequenceTop:) A]
      [(Sequence: (list seq-t)) (subtype* A elem1 seq-t)]
      [_ (continue<: A t1 t2 obj)])]
+  ;[(case: ] ;; REMOVEFOO
   [(case: Union (Union/set: base1 ts1 elems1))
    (let ([A (subtype* A base1 t2 obj)])
      (and A

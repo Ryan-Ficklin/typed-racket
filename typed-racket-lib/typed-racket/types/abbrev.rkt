@@ -50,6 +50,8 @@
 (define -Promise make-Promise)
 (define -set make-Set)
 (define -treelist make-TreeList)
+#;(define -foo make-Foo) ;; REMOVEFOO
+(define -table make-Table)
 (define -mvec make-Mutable-Vector)
 (define -ivec make-Immutable-Vector)
 

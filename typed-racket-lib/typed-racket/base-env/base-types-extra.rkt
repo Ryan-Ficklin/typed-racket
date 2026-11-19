@@ -20,7 +20,7 @@
 ;; special type names that are not bound to particular types
 (define-other-types
   -> ->* case-> Rec All Opaque
-  Parameterof List List* Class Object Row Unit Values AnyValues Instance Refinement
+  Parameterof List List* Class Object Row Table Unit Values AnyValues Instance Refinement
   pred Struct Struct-Type Prefab PrefabTop Distinction Sequenceof Refine Self Struct-Property Has-Struct-Property Some)
 
 (define-other-props
